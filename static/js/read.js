@@ -164,7 +164,7 @@ $(document).ready(function() {
         var div = document.createElement('div');
         var divId = stream.streamId
         div.setAttribute('id', divId);
-        document.body.appendChild(div)
+        document.getElementById("subscribers").appendChild(div)
         session.subscribe(stream,divId)
     }
 
