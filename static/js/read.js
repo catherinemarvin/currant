@@ -5,7 +5,7 @@ $(document).ready(function() {
     history.replaceState({}, room, "/"+room+"?user="+user)
     var socket = io.connect('/')
 
-    $.get("/book/"+room+"?ch=2", function (data) {
+    $.get("/book/"+room+"?ch=-1", function (data) {
         //console.log(data)
         //console.log(data)
         //console.log(paragraphs)
@@ -18,8 +18,8 @@ $(document).ready(function() {
         var toReturn = []
         var toAppend = []
         var charCount = 0;
-        var maxCount = 1750;
-
+        var maxCount = 1500;
+	console.log(paragraphs)
         for (var i=0;i <= paragraphs.length-1;i++) {
             toAppend.push("<p>")
             var paragraph = paragraphs[i]
@@ -32,6 +32,7 @@ $(document).ready(function() {
                 var word = wordsList[j]
                 charCount += word.length + 1
                 if (charCount > maxCount) {
+		    console.log('PAGEBREAK!')
                     toAppend.push("</p>")
                     toReturn.push(toAppend)
                     toAppend = ["<p>"]
@@ -44,7 +45,7 @@ $(document).ready(function() {
                 }
             }
             toAppend.push("</p>")
-            charCount += 90
+            charCount += 80
         }
         //console.log(toReturn)
         $("#magazineholder").append("<div id='magazine'></div>")
