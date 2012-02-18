@@ -1,0 +1,99 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Currant</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Dear Princess Celestia: I love books">
+		<meta name="author" content="evalGeniuses">
+		<link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+		<link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+		<!--HTML5 shim. IE6-8 is awful.-->
+		<!--[if lt IE9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script src="turn.js"></script>
+		<link rel="stylesheet" href="index.css"/>
+		<script>
+		$(document).ready(function () {
+			$('#magazine').turn({width:800, height: 400, page: 1, shadows: true, acceleration: true});
+
+			$('#magazine').bind('turning', function(e,page) {
+				centerMagazine(page)
+			});
+
+			$('#magazine').bind('turned', function (e, page, pageObj) {
+				console.log(page);
+				console.log(pageObj);
+			});
+
+			var sampleList = ["<p>", "hue", "hue2", "</p>"]
+			
+
+			var centerMagazine = function (page) {
+
+				var that = $('#magazine');
+				var width = that.width();
+				var pageWidth = width/2;
+				var total = $('#magazine').data().totalPages;
+				var leftc = ($(window).width()-width)/2;
+				var leftr = ($(window).width()-pageWidth)/2;
+				var leftd = (page == 1)? leftr - leftc - pageWidth : leftr - leftc;
+				console.log("INITIALIZE");
+				
+				if (page == total) {
+					console.log("SHIFT TO END")
+					$('#magazine').animate({left: 2 * leftd});
+				}
+
+				if (page == 1) {
+					console.log("SHIFT TO FRONT")
+					console.log(leftd)
+					$('#magazine').animate({left: 0 });
+
+				} else if (page == 2) {
+					console.log("SHIFT FROM 1")
+					console.log(leftd)
+					$('#magazine').animate({left: leftd});
+				} else if (page == total - 1) {
+					$('#magazine').animate({left: leftd});
+				}
+				
+			}
+
+		});
+		</script>
+	</head>
+
+	<body>
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+
+					<a class="brand" href="#">Currant</a>
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li class="active"><a href="#">Home</a></li>
+							<li><a href="#about">About</a></li>
+							<li><a href="#contact">Contact</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="controllers" class="container">
+			<div class="hero-unit">
+				<h1>Haro</h1>
+				<p>God I love books</p>
+				<a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+			</div>
+		</div>
+	</body>
+</html>

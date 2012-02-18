@@ -1,0 +1,134 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Currant</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Dear Princess Celestia: I love books">
+		<meta name="author" content="evalGeniuses">
+		<link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+		<link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+
+		<!--HTML5 shim. IE6-8 is awful.-->
+		<!--[if lt IE9]>
+			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script src="turn.js"></script>
+		<link rel="stylesheet" href="index.css"/>
+		<script>
+		$(document).ready(function () {
+			$('#magazine').turn({width:800, height: 400, page: 1, shadows: true, acceleration: true});
+
+			$('#magazine').bind('turning', function(e,page) {
+				centerMagazine(page)
+			});
+
+			$('#magazine').bind('turned', function (e, page, pageObj) {
+				console.log(page);
+				console.log(pageObj);
+			});
+
+			var sampleList = ["<p>", "hue", "hue2", "</p>"]
+			
+
+			var centerMagazine = function (page) {
+
+				var that = $('#magazine');
+				var width = that.width();
+				var pageWidth = width/2;
+				var total = $('#magazine').data().totalPages;
+				var leftc = ($(window).width()-width)/2;
+				var leftr = ($(window).width()-pageWidth)/2;
+				var leftd = (page == 1)? leftr - leftc - pageWidth : leftr - leftc;
+				console.log("INITIALIZE");
+				
+				if (page == total) {
+					console.log("SHIFT TO END")
+					$('#magazine').animate({left: 2 * leftd});
+				}
+
+				if (page == 1) {
+					console.log("SHIFT TO FRONT")
+					console.log(leftd)
+					$('#magazine').animate({left: 0 });
+
+				} else if (page == 2) {
+					console.log("SHIFT FROM 1")
+					console.log(leftd)
+					$('#magazine').animate({left: leftd});
+				} else if (page == total - 1) {
+					$('#magazine').animate({left: leftd});
+				}
+				
+			}
+
+		});
+		</script>
+	</head>
+
+	<body>
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+
+					<a class="brand" href="#">Currant</a>
+					<div class="nav-collapse">
+						<ul class="nav">
+							<li class="active"><a href="#">Home</a></li>
+							<li><a href="#about">About</a></li>
+							<li><a href="#contact">Contact</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="controllers" class="container">
+			<div class="hero-unit">
+				<h1>Haro</h1>
+				<p>God I love books</p>
+				<a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+			</div>
+
+			<div class="row">
+				<div id = "magazineholder" class="span12">
+					<div id="magazine">
+						<div id="page1">
+							<div id="page1content" class="page-content">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque ac congue justo. Morbi sem diam, rutrum ac cursus sed, sagittis sit amet tellus. Aliquam sit amet dui sed nunc lobortis molestie. Sed sit amet scelerisque urna. Quisque sollicitudin pellentesque dui, id pharetra lorem condimentum a. Mauris luctus ipsum at augue luctus in ornare est mattis. Nullam fermentum nibh ut eros feugiat nec adipiscing ante interdum. Duis ac eros vitae ligula blandit hendrerit. Vivamus tristique laoreet dictum. Etiam tincidunt rutrum consectetur. Pellentesque hendrerit dapibus rhoncus. Etiam vestibulum euismod auctor. In lobortis augue at dui auctor vestibulum.</p>
+
+								<p>Quisque sit amet risus tortor, sit amet lacinia sem. Quisque nec diam vitae nisi fermentum tempus. Vestibulum consectetur porta nisl, sed gravida ante adipiscing vitae. Aenean aliquam pulvinar orci, ut pulvinar ligula bibendum at. Quisque vel orci non leo consectetur aliquam. Etiam nisi odio, consequat sed vestibulum ac, ullamcorper in est. Nullam malesuada dui quis lorem placerat eu porttitor augue dapibus. Quisque varius imperdiet euismod. Aliquam erat volutpat. Quisque luctus lorem non leo adipiscing hendrerit. Sed laoreet consequat orci interdum viverra. Nunc consectetur, eros et congue placerat, augue eros consectetur arcu, nec fringilla mi nulla eu est. Donec scelerisque felis eu ipsum vestibulum rhoncus. In ac magna ut neque imperdiet adipiscing a eget ipsum. Morbi aliquam, arcu vel tempus tincidunt, eros velit ullamcorper felis, a commodo lectus leo ac erat. Donec at iaculis elit.</p>
+							</div>
+						</div>
+						<div id="page2">
+							<div id="page2content" class="page-content">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet imperdiet augue. In sollicitudin sollicitudin tellus, vel volutpat tellus tincidunt eu. Nullam molestie placerat lacus id adipiscing. Morbi bibendum, lorem in molestie faucibus, orci orci congue lorem, ac venenatis tortor sem sit amet dolor. Nulla facilisi. Suspendisse porta faucibus ultrices. Aliquam lobortis fermentum sem blandit interdum. Nullam id ligula tempus mi convallis porta. Mauris suscipit augue nisl.</p>
+
+								<p>Vestibulum sit amet est id metus vulputate mattis sed eget turpis. Duis non libero quis libero placerat suscipit. Duis scelerisque pretium aliquam. Fusce vel orci eget erat dignissim vulputate. Morbi quis purus ligula, eget congue lorem. Morbi at lectus nec ligula ultrices vulputate id nec purus. Vivamus ornare dolor ut mi vulputate vitae suscipit libero tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi quis nibh sem, vel mollis quam. Vestibulum enim urna, vulputate a lobortis a, malesuada quis velit.</p>
+							</div>
+						</div>
+						<div id="page3">
+							<div id="page2content" class="page-content">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet imperdiet augue. In sollicitudin sollicitudin tellus, vel volutpat tellus tincidunt eu. Nullam molestie placerat lacus id adipiscing. Morbi bibendum, lorem in molestie faucibus, orci orci congue lorem, ac venenatis tortor sem sit amet dolor. Nulla facilisi. Suspendisse porta faucibus ultrices. Aliquam lobortis fermentum sem blandit interdum. Nullam id ligula tempus mi convallis porta. Mauris suscipit augue nisl.</p>
+
+								<p>Vestibulum sit amet est id metus vulputate mattis sed eget turpis. Duis non libero quis libero placerat suscipit. Duis scelerisque pretium aliquam. Fusce vel orci eget erat dignissim vulputate. Morbi quis purus ligula, eget congue lorem. Morbi at lectus nec ligula ultrices vulputate id nec purus. Vivamus ornare dolor ut mi vulputate vitae suscipit libero tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi quis nibh sem, vel mollis quam. Vestibulum enim urna, vulputate a lobortis a, malesuada quis velit.</p>
+							</div>
+						</div>
+						<div id="page4">
+							<div id="page2content" class="page-content">
+								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam sit amet imperdiet augue. In sollicitudin sollicitudin tellus, vel volutpat tellus tincidunt eu. Nullam molestie placerat lacus id adipiscing. Morbi bibendum, lorem in molestie faucibus, orci orci congue lorem, ac venenatis tortor sem sit amet dolor. Nulla facilisi. Suspendisse porta faucibus ultrices. Aliquam lobortis fermentum sem blandit interdum. Nullam id ligula tempus mi convallis porta. Mauris suscipit augue nisl.</p>
+
+								<p>Vestibulum sit amet est id metus vulputate mattis sed eget turpis. Duis non libero quis libero placerat suscipit. Duis scelerisque pretium aliquam. Fusce vel orci eget erat dignissim vulputate. Morbi quis purus ligula, eget congue lorem. Morbi at lectus nec ligula ultrices vulputate id nec purus. Vivamus ornare dolor ut mi vulputate vitae suscipit libero tristique. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Morbi quis nibh sem, vel mollis quam. Vestibulum enim urna, vulputate a lobortis a, malesuada quis velit.</p>
+							</div>
+						</div>
+					</div> <!--end magazine -->
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

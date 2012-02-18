@@ -1,0 +1,48 @@
+body {
+	padding-top: 60px;
+}
+
+#holder {
+	width: 400px;
+	height: 400px;
+	background-color: whiteSmoke;
+}
+
+.page-content {
+	margin: 20px;
+}
+
+#magazine {
+	width: 800px;
+	height: 400px;
+}
+
+.turn-page {
+	width: 400px;
+	height: 400px;
+	background: #B7B3BA;
+}
+
+.turn-page-wrapper {
+	overflow: hidden;
+}
+
+.turn-page.p1 {
+	background-color: #B7B3BA;
+}
+
+.turn-page.p2 {
+	background-color: #F0F0F0;
+}
+
+.turn-page.p3 {
+	background-color: #B7B3BA;
+}
+
+.turn-page.p4 {
+	background-color: #F0F0F0;
+}
+
+.turn-page.p6 {
+	background-color: #F0F0F0;
+}
