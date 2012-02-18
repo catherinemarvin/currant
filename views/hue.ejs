@@ -20,7 +20,7 @@
 
 			/*Preprocess the stuff here, then bind stuff with turnjs */
 
-			$.get("/book/a?ch=10", function (data) {
+			$.get("/book/cristo?ch=2", function (data) {
 				//console.log(data)
 				//console.log(data)
 				//console.log(paragraphs)
@@ -33,7 +33,7 @@
 				var toReturn = []
 				var toAppend = []
 				var charCount = 0;
-				var maxCount = 3000;
+				var maxCount = 1750;
 
 				for (var i=0;i <= paragraphs.length-1;i++) {
 					toAppend.push("<p>")
@@ -42,7 +42,7 @@
 					var text = paragraph.innerHTML
 					//console.log(text)
 					var wordsList = text.split(" ")
-					//console.log(wordsList)
+					console.log(wordsList)
 					for (var j=0; j <= wordsList.length-1;j++) {
 						var word = wordsList[j]
 						charCount += word.length + 1
@@ -59,6 +59,7 @@
 						}
 					}
 					toAppend.push("</p>")
+					charCount += 90
 				}
 				//console.log(toReturn)
 				$("#magazineholder").append("<div id='magazine'></div>");
@@ -77,19 +78,20 @@
 					} else {
 						$("#page"+i).css({"background-color" : "#F0F0F0"});
 					}
+					$("#page"+i+"content").css({"font-size" : "40px"});
 					
 					retString = ""
 				}
 
-				$('#magazine').turn({width:1024, height: 800, page: 1, shadows: true, acceleration: true});
+				$('#magazine').turn({page: 1, shadows: true, acceleration: true});
 
 				$('#magazine').bind('turning', function(e,page) {
 					centerMagazine(page)
 				});
 
 				$('#magazine').bind('turned', function (e, page, pageObj) {
-					console.log(page);
-					console.log(pageObj);
+					//console.log(page);
+					//console.log(pageObj);
 				});
 			});
 
@@ -120,7 +122,7 @@
 				var leftc = ($(window).width()-width)/2;
 				var leftr = ($(window).width()-pageWidth)/2;
 				var leftd = (page == 1)? leftr - leftc - pageWidth : leftr - leftc;
-				console.log("INITIALIZE");
+				//console.log("INITIALIZE");
 				
 				if (page == total) {
 					console.log("SHIFT TO END")
@@ -128,13 +130,13 @@
 				}
 
 				if (page == 1) {
-					console.log("SHIFT TO FRONT")
-					console.log(leftd)
+					//console.log("SHIFT TO FRONT")
+					//console.log(leftd)
 					$('#magazine').animate({left: 0 });
 
 				} else if (page == 2) {
-					console.log("SHIFT FROM 1")
-					console.log(leftd)
+					//console.log("SHIFT FROM 1")
+					//console.log(leftd)
 					$('#magazine').animate({left: leftd});
 				} else if (page == total - 1) {
 					$('#magazine').animate({left: leftd});
@@ -165,14 +167,6 @@
 						</ul>
 					</div>
 				</div>
-			</div>
-		</div>
-
-		<div id="controllers" class="container">
-			<div class="hero-unit">
-				<h1>Haro</h1>
-				<p>God I love books</p>
-				<a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 			</div>
 		</div>
 
