@@ -1,23 +1,11 @@
-window.onload = function() {
+$(document).ready(function() {
     var room = $('#room').val()
     console.log(room)
     var user = $('#user').val()
     history.replaceState({}, room, "/"+room+"?user="+user)
     var socket = io.connect('/')
 
-    $('#magazine').bind('turned', function(err, page) {
-        socket.emit('turnToPage', page)
-    })
-
-    socket.on('connect', function() {
-        socket.emit('setRoomAndUser', {room:room, user:user})
-    })
-
-    socket.on('turnToPage', function(page) {
-        $('#magazine').turn('page', page)
-    })
-
-    $.get("/book/"+room+"?ch=2", function (data) {
+    $.get("/book/"+room+"?ch=5", function (data) {
         //console.log(data)
         //console.log(data)
         //console.log(paragraphs)
@@ -86,10 +74,9 @@ window.onload = function() {
             centerMagazine(page)
         });
 
-        $('#magazine').bind('turned', function (e, page, pageObj) {
-            //console.log(page);
-            //console.log(pageObj);
-        });
+        $('#magazine').bind('turned', function(err, page, pageObj) {
+            socket.emit('turnToPage', page)
+        })
     });
 
     var centerMagazine = function (page) {
@@ -121,4 +108,15 @@ window.onload = function() {
             $('#magazine').animate({left: leftd});
         }
     }
-}
+    
+
+    socket.on('connect', function() {
+        socket.emit('setRoomAndUser', {room:room, user:user})
+    })
+
+    socket.on('turnToPage', function(page) {
+        if ($('#magazine').turn('page') != page) {
+            $('#magazine').turn('page', page)
+        }
+    })
+})
