@@ -6,6 +6,11 @@ p {
 	font-family: helvetica, arial, sans-serif;
 }
 
+#plus {
+	width: 400px;
+	height: 400px;
+}
+
 .page-content {
 	margin: 40px;
 }
