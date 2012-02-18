@@ -93,9 +93,12 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('turnToPage', function(pageNumber) {
         socket.get('room', function(err, room) {
-            socket.broadcast.to(room).emit('turnToPage', pageNumber)
-            roomPages[room] = pageNumber
+            if (pageNumber != roomPages[room]) {
+                socket.broadcast.to(room).emit('turnToPage', pageNumber)
+                roomPages[room] = pageNumber
+            }
         })
+        console.log('In room, user '+socket.id+' turned to page '+pageNumber)
     })
 
     socket.on('disconnect', function() {

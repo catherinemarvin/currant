@@ -5,7 +5,7 @@ $(document).ready(function() {
     history.replaceState({}, room, "/"+room+"?user="+user)
     var socket = io.connect('/')
 
-    $.get("/book/"+room+"?ch=5", function (data) {
+    $.get("/book/"+room+"?ch=2", function (data) {
         //console.log(data)
         //console.log(data)
         //console.log(paragraphs)
