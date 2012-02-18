@@ -131,7 +131,36 @@ io.sockets.on('connection', function(socket) {
                 delete userCounts[room]
             }
         })
-    })
+    });
+
+    socket.on('createdStream', function (roomAndStream) { //JSON with room and id
+        console.log("MY CREATION")
+        var room = roomAndStream.room
+        var stream = roomAndStream.stream
+        var myId = roomAndStream.myId
+        console.log(myId)
+        if (room in roomVideos) {
+            if (roomVideos[room].indexOf(stream) == -1) {
+                roomVideos[room].push(stream)
+            }
+        } else {
+            roomVideos[room] = [stream]
+        }
+        socket.emit('subscribe', {"myid" : myId, "streams" : roomVideos[room]})
+    });
+
+    socket.on('subscribeToStream', function (roomAndId) {
+        var room = roomAndId.room
+        var id = roomAndId.id
+        console.log("subscribing")
+        if (room in roomVideos) {
+            console.log("already exists")
+            console.log(roomVideos[room])
+            socket.emit('subscribe',{"myid" : id, "streams" : roomVideos[room]})
+        } else {
+            console.log("nothing")
+        }
+    });
 
     socket.on('createdStream', function (roomAndStream) { //JSON with room and id
         console.log("MY CREATION")
