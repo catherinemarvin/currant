@@ -13,15 +13,84 @@
 			<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-		<script src="turn.js"></script>
-		<link rel="stylesheet" href="index.css"/>
+		<script src="static/js/turn.js"></script>
+		<link rel="stylesheet" href="static/css/index.css"/>
 		<script>
 		$(document).ready(function () {
 
 			/*Preprocess the stuff here, then bind stuff with turnjs */
 
-			$.get("test.html", function (data) {
-				console.log(data);
+			$.get("/book/a?ch=10", function (data) {
+				//console.log(data)
+				//console.log(data)
+				//console.log(paragraphs)
+				var div = document.createElement("div");
+				div.innerHTML = data;
+				//console.log(div)
+				var paragraphs = div.getElementsByTagName("p")
+				//console.log(paragraphs)
+
+				var toReturn = []
+				var toAppend = []
+				var charCount = 0;
+				var maxCount = 3000;
+
+				for (var i=0;i <= paragraphs.length-1;i++) {
+					toAppend.push("<p>")
+					var paragraph = paragraphs[i]
+					//console.log(paragraph)
+					var text = paragraph.innerHTML
+					//console.log(text)
+					var wordsList = text.split(" ")
+					//console.log(wordsList)
+					for (var j=0; j <= wordsList.length-1;j++) {
+						var word = wordsList[j]
+						charCount += word.length + 1
+						if (charCount > maxCount) {
+							toAppend.push("</p>")
+							toReturn.push(toAppend)
+							toAppend = ["<p>"]
+
+							toAppend.push(word)
+
+							charCount = word.length + 1
+						} else {
+							toAppend.push(word)
+						}
+					}
+					toAppend.push("</p>")
+				}
+				//console.log(toReturn)
+				$("#magazineholder").append("<div id='magazine'></div>");
+				for (var i = 0; i <= toReturn.length - 1; i++) {
+					var lst = toReturn[i]
+					//console.log(lst)
+
+					var retString = ""
+					for (var x = 0; x <= lst.length - 1 ; x++) {
+						retString = retString + " " + lst[x]
+					}
+
+					$("#magazine").append("<div id='page"+i+"'><div id='page"+i+"content' class='page-content'>"+retString+"</div></div>")
+					if ((i % 2) == 0) { //this means right hand side, aka odd numbered pages
+						$("#page"+i).css({"background-color" : "#B7B3BA"});
+					} else {
+						$("#page"+i).css({"background-color" : "#F0F0F0"});
+					}
+					
+					retString = ""
+				}
+
+				$('#magazine').turn({width:1024, height: 800, page: 1, shadows: true, acceleration: true});
+
+				$('#magazine').bind('turning', function(e,page) {
+					centerMagazine(page)
+				});
+
+				$('#magazine').bind('turned', function (e, page, pageObj) {
+					console.log(page);
+					console.log(pageObj);
+				});
 			});
 
 			//$("#magazineholder").append("<div id='magazine'></div>");
@@ -29,7 +98,7 @@
 			//$("#magazine").append("<div>haro2</div>")
 
 
-
+			/*
 			$('#magazine').turn({width:800, height: 400, page: 1, shadows: true, acceleration: true});
 
 			$('#magazine').bind('turning', function(e,page) {
@@ -40,9 +109,7 @@
 				console.log(page);
 				console.log(pageObj);
 			});
-
-			var sampleList = ["<p>", "hue", "hue2", "</p>"]
-			
+*/
 
 			var centerMagazine = function (page) {
 

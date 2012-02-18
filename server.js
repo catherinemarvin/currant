@@ -25,6 +25,10 @@ server.get('/', function(req, res) {
     res.render('index', {})
 })
 
+server.get('/hue', function (req, res) {
+    res.render('hue', {})
+})
+
 server.get('/book/:id', function(req, res) {
     var epub = new EPub('tmp/'+req.params.id+'.zip')
     epub.on('error', function(err) {
