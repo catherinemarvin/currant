@@ -61,12 +61,26 @@ $(document).ready(function() {
             if ((i % 2) == 0) { //this means right hand side, aka odd numbered pages
                 //$("#page"+i).css({"background-color" : "#B7B3BA"});
                 //$("#page"+i).css({"background-color" : "#666"});
-                $("#page"+i).css({"background-image" : "-webkit-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
-                $("#page"+i).css({"background-image" : "-moz-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
+
+                $("#page"+i).css({"background" : "-webkit-gradient(linear, left top, right top, color-stop(0%,#f9f7e1), color-stop(100%,#efe0ba))"})
+                $("#page"+i).css({"background" : "-webkit-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "-o-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "-ms-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                
+
+                
+                //$("#page"+i).css({"background-image" : "-webkit-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
+                //$("#page"+i).css({"background-image" : "-moz-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
             } else {
-                $("#page"+i).css({"background-color" : "#F0F0F0"});
+                $("#page"+i).css({"background" : "-webkit-gradient(linear, left top, right top, color-stop(0%,#f9f7e1), color-stop(100%,#efe0ba))"})
+                $("#page"+i).css({"background" : "-webkit-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "-o-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "-ms-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                //$("#page"+i).css({"background-color" : "#F0F0F0"});
             }
-            $("#page"+i+"content").css({"font-size" : "40px"});
+            $("#page"+i+"content").css({"font-size" : "40px"})
             
             retString = ""
         }
