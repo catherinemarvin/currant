@@ -1,4 +1,4 @@
-window.onload = function() {
+$(document).ready(function() {
     var room = $('#room').val()
     console.log(room)
     var user = $('#user').val()
@@ -121,4 +121,4 @@ window.onload = function() {
             $('#magazine').animate({left: leftd});
         }
     }
-}
+});
