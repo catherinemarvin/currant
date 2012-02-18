@@ -1,5 +1,6 @@
 window.onload = function() {
     var room = $('#room').val()
+    console.log(room)
     var user = $('#user').val()
     history.replaceState({}, room, "/"+room+"?user="+user)
     var socket = io.connect('/')
@@ -16,7 +17,7 @@ window.onload = function() {
         $('#magazine').turn('page', page)
     })
 
-    $.get("/book/cristo?ch=2", function (data) {
+    $.get("/book/"+room+"?ch=2", function (data) {
         //console.log(data)
         //console.log(data)
         //console.log(paragraphs)
@@ -38,7 +39,7 @@ window.onload = function() {
             var text = paragraph.innerHTML
             //console.log(text)
             var wordsList = text.split(" ")
-            console.log(wordsList)
+            //console.log(wordsList)
             for (var j=0; j <= wordsList.length-1;j++) {
                 var word = wordsList[j]
                 charCount += word.length + 1
