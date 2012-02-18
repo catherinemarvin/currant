@@ -36,14 +36,35 @@ server.get('/book/:id', function(req, res) {
         throw err
     })
     epub.on('end', function(err) {
-        epub.getChapter(epub.spine.contents[req.query.ch].id, function(err, data) {
-            if (err) {
-                console.log(err)
-                return
+        if (req.query.ch == -1) {
+            var chunks = ""
+            console.log(chunks)
+            function getAllChapters(currentChapter) {
+                if (currentChapter == epub.spine.contents.length) {
+                    res.end()
+                } else {
+                    epub.getChapter(epub.spine.contents[currentChapter].id, function(err, data) {
+                        if (err) {
+                            console.log(err)
+                            return
+                        }
+                        res.write(data)
+                        getAllChapters(currentChapter+1)
+                    })
+                }
             }
-            res.write(data)
-            res.end()
-        })
+            getAllChapters(0)
+        } else {
+            console.log('test')
+            epub.getChapter(epub.spine.contents[req.query.ch].id, function(err, data) {
+                if (err) {
+                    console.log(err)
+                    return
+                }
+                res.write(data)
+                res.end()
+            })
+        }
     })
     epub.parse()
 })
@@ -54,7 +75,6 @@ server.post('/upload/', function(req, res) {
 })
 
 server.post('/upload/:id', function(req, res) {
-    console.log('test')
     if (userCounts[req.params.id] == null || userCounts[req.params.id] == 0) {
         var form = new formidable.IncomingForm()
         form.uploadDir = 'tmp'
@@ -95,9 +115,12 @@ io.sockets.on('connection', function(socket) {
 
     socket.on('turnToPage', function(pageNumber) {
         socket.get('room', function(err, room) {
-            socket.broadcast.to(room).emit('turnToPage', pageNumber)
-            roomPages[room] = pageNumber
+            if (pageNumber != roomPages[room]) {
+                socket.broadcast.to(room).emit('turnToPage', pageNumber)
+                roomPages[room] = pageNumber
+            }
         })
+        console.log('In room, user '+socket.id+' turned to page '+pageNumber)
     })
 
     socket.on('disconnect', function() {

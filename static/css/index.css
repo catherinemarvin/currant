@@ -18,6 +18,19 @@ p {
 #magazine {
 	width: 800px;
 	height: 600px;
+	margin: auto;
+}
+
+#magazineholderholder {
+	width: 100%;
+}
+
+#magazineholder {
+	width: 800px;
+	height: 600px;
+	margin: auto;
+	position: relative;
+	left: -200px;
 }
 
 .turn-page {

@@ -5,19 +5,7 @@ $(document).ready(function() {
     history.replaceState({}, room, "/"+room+"?user="+user)
     var socket = io.connect('/')
 
-    $('#magazine').bind('turned', function(err, page) {
-        socket.emit('turnToPage', page)
-    })
-
-    socket.on('connect', function() {
-        socket.emit('setRoomAndUser', {room:room, user:user})
-    })
-
-    socket.on('turnToPage', function(page) {
-        $('#magazine').turn('page', page)
-    })
-
-    $.get("/book/"+room+"?ch=2", function (data) {
+    $.get("/book/"+room+"?ch=-1", function (data) {
         //console.log(data)
         //console.log(data)
         //console.log(paragraphs)
@@ -30,8 +18,8 @@ $(document).ready(function() {
         var toReturn = []
         var toAppend = []
         var charCount = 0;
-        var maxCount = 1750;
-
+        var maxCount = 1500;
+	console.log(paragraphs)
         for (var i=0;i <= paragraphs.length-1;i++) {
             toAppend.push("<p>")
             var paragraph = paragraphs[i]
@@ -44,6 +32,7 @@ $(document).ready(function() {
                 var word = wordsList[j]
                 charCount += word.length + 1
                 if (charCount > maxCount) {
+		    console.log('PAGEBREAK!')
                     toAppend.push("</p>")
                     toReturn.push(toAppend)
                     toAppend = ["<p>"]
@@ -56,10 +45,10 @@ $(document).ready(function() {
                 }
             }
             toAppend.push("</p>")
-            charCount += 90
+            charCount += 80
         }
         //console.log(toReturn)
-        $("#magazineholder").append("<div id='magazine'></div>");
+        $("#magazineholder").append("<div id='magazine'></div>")
         for (var i = 0; i <= toReturn.length - 1; i++) {
             var lst = toReturn[i]
             //console.log(lst)
@@ -73,27 +62,40 @@ $(document).ready(function() {
             if ((i % 2) == 0) { //this means right hand side, aka odd numbered pages
                 //$("#page"+i).css({"background-color" : "#B7B3BA"});
                 //$("#page"+i).css({"background-color" : "#666"});
-                $("#page"+i).css({"background-image" : "-webkit-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
-                $("#page"+i).css({"background-image" : "-moz-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
+
+                $("#page"+i).css({"background" : "-webkit-gradient(linear, left top, right top, color-stop(0%,#f9f7e1), color-stop(100%,#efe0ba))"})
+                $("#page"+i).css({"background" : "-webkit-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "-o-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "-ms-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                
+
+                
+                //$("#page"+i).css({"background-image" : "-webkit-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
+                //$("#page"+i).css({"background-image" : "-moz-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
             } else {
-                $("#page"+i).css({"background-color" : "#F0F0F0"});
+                $("#page"+i).css({"background" : "-webkit-gradient(linear, left top, right top, color-stop(0%,#f9f7e1), color-stop(100%,#efe0ba))"})
+                $("#page"+i).css({"background" : "-webkit-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "-o-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "-ms-linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                $("#page"+i).css({"background" : "linear-gradient(left, #f9f7e1 0%,#efe0ba 100%)"})
+                //$("#page"+i).css({"background-color" : "#F0F0F0"});
             }
-            $("#page"+i+"content").css({"font-size" : "40px"});
+            $("#page"+i+"content").css({"font-size" : "40px"})
             
             retString = ""
         }
 
-        $('#magazine').turn({page: 1, shadows: true, acceleration: true});
+        $('#magazine').turn({page: 1, shadows: true, acceleration: true})
 
         $('#magazine').bind('turning', function(e,page) {
             centerMagazine(page)
-        });
+        })
 
-        $('#magazine').bind('turned', function (e, page, pageObj) {
-            console.log(page);
-            console.log(pageObj);
-        });
-    });
+        $('#magazine').bind('turned', function(err, page, pageObj) {
+            socket.emit('turnToPage', page)
+        })
+    })
 
     var centerMagazine = function (page) {
 
@@ -140,8 +142,6 @@ $(document).ready(function() {
     var publisher;
     var connections = {}
 
-    
-
     function sessionConnectedHandler(event) {
         console.log("connected")
         publisher = session.publish('video');
@@ -178,3 +178,10 @@ $(document).ready(function() {
         }     
     });
 });
+
+    socket.on('turnToPage', function(page) {
+        if ($('#magazine').turn('page') != page) {
+            $('#magazine').turn('page', page)
+        }
+    })
+})
