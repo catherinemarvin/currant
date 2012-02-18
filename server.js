@@ -1,6 +1,8 @@
 var express = require('express')
 var io = require('socket.io')
 var fs = require('fs')
+var formidable = require('formidable')
+var EPub = require('epub')
 
 var server = express.createServer()
 server.set('view engine', 'ejs')
@@ -18,25 +20,35 @@ io.set('log level', 1)
 
 
 server.get('/', function(req, res) {
-	res.render('index', {})
+    res.render('index', {})
 })
 
 server.post('/upload/:id', function(req, res) {
-	var form = new formidable.IncomingForm();
-            form.parse(req))
-            form.onPart = function(part) {
-                part.on('data', function(data) {
-                    fs.open('tmp/'+req.params.id, 'w', function(err, fd) {
-						fs.write(fd, data, undefined, undefined, function(err, written) {
-							console.log('written '+written+' bytes to file '+req.params.id)
-							fs.close(fd)
-						})
-					})
-                })
-                part.on('end', function() {
-                    res.write("File received.")
-                    res.end()
-                })
-            }
+    var form = new formidable.IncomingForm()
+    form.parse(req)
+    form.onPart = function(part) {
+        part.on('data', function(data) {
+            var fd = fs.openSync('tmp/'+req.params.id+'.zip', 'a')
+            fs.writeSync(fd, data, 0, data.length, null)
+            fs.closeSync(fd)
+        })
+        part.on('end', function() {
+            res.render('index', {})
+            res.end()
+            var epub = new EPub('tmp/'+req.params.id+'.zip')
+            console.log(epub)
+            epub.on('error', function(err) {
+                console.log(err)
+                throw err
+            })
+            epub.on('end', function(err) {
+                console.log('end')
+                console.log('metadata: '+epub.metadata)
+                console.log('spine: '+epub.flow)
+                console.log('toc: '+epub.toc)
+            })
+            epub.parse()
+        })
+    }
 
 })
