@@ -12,6 +12,8 @@ server.set('view options', {
 server.set('views', __dirname + "/views")
 server.set('tmp', __dirname + "/tmp")
 server.use("/static", express.static(__dirname + "/static"))
+
+
 server.listen(80)
 
 var io = io.listen(server)
@@ -23,9 +25,42 @@ server.get('/', function(req, res) {
     res.render('index', {})
 })
 
+server.get('/book/:id', function(req, res) {
+    var epub = new EPub('tmp/'+req.params.id+'.zip')
+    epub.on('error', function(err) {
+        console.log(err)
+        throw err
+    })
+    epub.on('end', function(err) {
+        epub.getChapter(epub.spine.contents[req.query.ch].id, function(err, data) {
+            if (err) {
+                console.log(err)
+                return
+            }
+            res.write(data)
+            res.end()
+        })
+    })
+    epub.parse()
+})
+
 server.post('/upload/:id', function(req, res) {
     var form = new formidable.IncomingForm()
+    form.uploadDir = 'tmp'
     form.parse(req)
+    form.addListener('file', function(name, file) {
+        fs.rename(file.path, 'tmp/'+req.params.id+'.zip')
+    })
+    form.addListener('end', function() {
+        console.log(req.query)
+        console.log(req.query.room)
+        console.log(req.query.user)
+        res.render('read', {room:req.query.room, user:req.query.user})
+        res.end()
+
+    })
+
+    /*
     form.onPart = function(part) {
         part.on('data', function(data) {
             var fd = fs.openSync('tmp/'+req.params.id+'.zip', 'a')
@@ -33,7 +68,7 @@ server.post('/upload/:id', function(req, res) {
             fs.closeSync(fd)
         })
         part.on('end', function() {
-            res.render('read', {room:req.body.room, user:req.body.user})
+            res.render('read', {room:req.room, user:req.user})
             res.end()
             var epub = new EPub('tmp/'+req.params.id+'.zip')
             console.log(epub)
@@ -46,7 +81,7 @@ server.post('/upload/:id', function(req, res) {
                 console.log('metadata: '+epub.metadata)
                 console.log('spine: '+epub.flow)
                 console.log('toc: '+epub.toc)
-                epub.getChapter(epub.spine.contents[5].id, function(err, data) {
+                epub.getChapter(epub.spine.contents[0].id, function(err, data) {
                     if (err) {
                         console.log(err)
                         return
@@ -57,6 +92,7 @@ server.post('/upload/:id', function(req, res) {
             epub.parse()
         })
     }
+    */
 
 })
 
@@ -86,7 +122,7 @@ io.sockets.on('connection', function(socket) {
         })
     })
 
-    socketon('disconnect', function() {
+    socket.on('disconnect', function() {
         socket.get('room', function(err, room) {
             userCounts[room]--
             if (userCounts[room] == 0) {

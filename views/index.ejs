@@ -7,10 +7,10 @@
     </head>
     <body>
         <form id="f" enctype="multipart/form-data" method="post">
-            <input id="roomInput" type="text" name="room" />
-            <input id="userInput" type="text" name="user" />
+            <input id="roomInput" type="text" name="room" placeholder="Room" />
+            <input id="userInput" type="text" name="user" placeholder="Username" />
             <input id="i" type="file" name="file" />
-            <input type="submit" onclick="document.getElementById('f').action='/upload/'+document.getElementById('i').files[0].name" />
+            <input type="submit" onclick="document.getElementById('f').action='/upload/'+document.getElementById('roomInput').value" />
         </form>
     </body>
 </html>
