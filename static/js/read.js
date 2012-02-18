@@ -5,7 +5,7 @@ $(document).ready(function() {
     history.replaceState({}, room, "/"+room+"?user="+user)
     var socket = io.connect('/')
 
-    $.get("/book/"+room+"?ch=-1", function (data) {
+    $.get("/book/"+room+"?ch=2", function (data) {
         //console.log(data)
         //console.log(data)
         //console.log(paragraphs)
@@ -132,4 +132,57 @@ $(document).ready(function() {
             $('#magazine').turn('page', page)
         }
     })
+
+    var apiKey = '12002492';
+    var sessionId = '2_MX4xMjMyMDgxfjcyLjUuMTY3LjE0OH4yMDEyLTAyLTE4IDE2OjA5OjM1LjkxNzkyMyswMDowMH4wLjkyNzExMjU4NDU5Nn4';
+    var token = 'devtoken';
+
+    TB.setLogLevel(TB.DEBUG);
+
+    var session = TB.initSession(sessionId);
+
+    session.addEventListener('sessionConnected', sessionConnectedHandler);
+    session.addEventListener('streamCreated', streamCreatedHandler)
+    session.connect(apiKey, token);
+
+    var publisher;
+    var connections = {}
+
+    
+
+    function sessionConnectedHandler(event) {
+        console.log("connected")
+        publisher = session.publish('video');
+        socket.emit('subscribeToStream',{"room": room, "id" : session.connection.connectionId});
+    }
+
+    function streamCreatedHandler(event) {
+        socket.emit('createdStream',{"room" : room, "stream" : event.streams[0], "myId" : session.connection.connectionId})
+    }
+
+    function addStream(stream) {
+        var div = document.createElement('div');
+        var divId = stream.streamId
+        div.setAttribute('id', divId);
+        document.body.appendChild(div)
+        session.subscribe(stream,divId)
+    }
+
+    socket.on('subscribe', function (videoIdsIdStreams) {
+        console.log("subscribing")
+        var id = videoIdsIdStreams.myid;
+        //var videoids = videoIdsIdStreams.videoIds
+        var streams = videoIdsIdStreams.streams
+        console.log(streams)
+        
+        for (var i = 0; i < streams.length; i++) {
+            var stream = streams[i]
+            console.log(stream.connection.connectionId)
+            console.log(session.connection.connectionId)
+            if ((stream.connection.connectionId != session.connection.connectionId) && ((stream in connections) == false)) {
+                addStream(stream);
+                connections[stream] = true
+            }
+        }     
+    });
 })
