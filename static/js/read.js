@@ -19,7 +19,6 @@ $(document).ready(function() {
         var toAppend = []
         var charCount = 0;
         var maxCount = 1500;
-	console.log(paragraphs)
         for (var i=0;i <= paragraphs.length-1;i++) {
             toAppend.push("<p>")
             var paragraph = paragraphs[i]
@@ -32,7 +31,6 @@ $(document).ready(function() {
                 var word = wordsList[j]
                 charCount += word.length + 1
                 if (charCount > maxCount) {
-		    console.log('PAGEBREAK!')
                     toAppend.push("</p>")
                     toReturn.push(toAppend)
                     toAppend = ["<p>"]
@@ -173,12 +171,9 @@ $(document).ready(function() {
         var id = videoIdsIdStreams.myid;
         //var videoids = videoIdsIdStreams.videoIds
         var streams = videoIdsIdStreams.streams
-        console.log(streams)
         
         for (var i = 0; i < streams.length; i++) {
             var stream = streams[i]
-            console.log(stream.connection.connectionId)
-            console.log(session.connection.connectionId)
             if ((stream.connection.connectionId != session.connection.connectionId) && ((stream in connections) == false)) {
                 addStream(stream);
                 connections[stream] = true

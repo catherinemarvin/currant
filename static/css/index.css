@@ -18,6 +18,7 @@ p {
 
 #magazineholderholder {
 	width: 100%;
+	z-index: -99;
 }
 
 #magazineholder {
@@ -36,4 +37,22 @@ p {
 
 .turn-page-wrapper {
 	overflow: hidden;
+}
+
+#videocontainer {
+	position: fixed;
+	top: 80px;
+	left: 0px;
+	width: 264px;
+	height: 168px;
+	z-index: -100;
+}
+
+#subscribers {
+	position: fixed;
+	top: 60px;
+	right: 0px;
+	width: 264px;
+	height: 168px;
+	z-index: -100;
 }
