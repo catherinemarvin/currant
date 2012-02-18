@@ -33,7 +33,7 @@ server.post('/upload/:id', function(req, res) {
             fs.closeSync(fd)
         })
         part.on('end', function() {
-            res.render('index', {})
+            res.render('read', {room:req.body.room, user:req.body.user})
             res.end()
             var epub = new EPub('tmp/'+req.params.id+'.zip')
             console.log(epub)
@@ -65,7 +65,7 @@ var roomPages = {} // a dictionary of current page numbers, indexed by room
 var userCounts = {} // a dictionary of current counts of users, indexed by room
 
 io.sockets.on('connection', function(socket) {
-    
+
     socket.on('setRoomAndUser', function(data) {
         socket.set('room', data['room'])
         socket.set('user', data['user'])
@@ -76,7 +76,7 @@ io.sockets.on('connection', function(socket) {
         } else {
             userCounts[data['room']]++
         }
-        console.log('User '+data['user']+' ('socket.id+') joined room '+data['room'])
+        console.log('User '+data['user']+' ('+socket.id+') joined room '+data['room'])
     })
 
     socket.on('turnToPage', function(pageNumber) {
@@ -93,7 +93,7 @@ io.sockets.on('connection', function(socket) {
                 delete roomPages[room]
                 delete userCounts[room]
             }
-        }
+        })
     })
 
 })
