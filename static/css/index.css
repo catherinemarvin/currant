@@ -2,8 +2,12 @@ body {
 	padding-top: 60px;
 }
 
+p {
+	font-family: helvetica, arial, sans-serif;
+}
+
 .page-content {
-	margin: 20px;
+	margin: 40px;
 }
 
 #magazine {

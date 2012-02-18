@@ -47,7 +47,7 @@ $(document).ready(function() {
             charCount += 90
         }
         //console.log(toReturn)
-        $("#magazineholder").append("<div id='magazine'></div>");
+        $("#magazineholder").append("<div id='magazine'></div>")
         for (var i = 0; i <= toReturn.length - 1; i++) {
             var lst = toReturn[i]
             //console.log(lst)
@@ -59,7 +59,10 @@ $(document).ready(function() {
 
             $("#magazine").append("<div id='page"+i+"'><div id='page"+i+"content' class='page-content'>"+retString+"</div></div>")
             if ((i % 2) == 0) { //this means right hand side, aka odd numbered pages
-                $("#page"+i).css({"background-color" : "#B7B3BA"});
+                //$("#page"+i).css({"background-color" : "#B7B3BA"});
+                //$("#page"+i).css({"background-color" : "#666"});
+                $("#page"+i).css({"background-image" : "-webkit-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
+                $("#page"+i).css({"background-image" : "-moz-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
             } else {
                 $("#page"+i).css({"background-color" : "#F0F0F0"});
             }
@@ -68,16 +71,16 @@ $(document).ready(function() {
             retString = ""
         }
 
-        $('#magazine').turn({page: 1, shadows: true, acceleration: true});
+        $('#magazine').turn({page: 1, shadows: true, acceleration: true})
 
         $('#magazine').bind('turning', function(e,page) {
             centerMagazine(page)
-        });
+        })
 
         $('#magazine').bind('turned', function(err, page, pageObj) {
             socket.emit('turnToPage', page)
         })
-    });
+    })
 
     var centerMagazine = function (page) {
 
@@ -108,11 +111,6 @@ $(document).ready(function() {
             $('#magazine').animate({left: leftd});
         }
     }
-    
-
-    socket.on('connect', function() {
-        socket.emit('setRoomAndUser', {room:room, user:user})
-    })
 
     socket.on('turnToPage', function(page) {
         if ($('#magazine').turn('page') != page) {
