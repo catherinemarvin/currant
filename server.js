@@ -25,8 +25,8 @@ server.get('/', function(req, res) {
     res.render('index', {})
 })
 
-server.get('/hue', function (req, res) {
-    res.render('hue', {})
+server.get('/:id', function (req, res) {
+    res.render('read', {room:req.params.id, user:req.query.user})
 })
 
 server.get('/book/:id', function(req, res) {
@@ -48,56 +48,28 @@ server.get('/book/:id', function(req, res) {
     epub.parse()
 })
 
+server.post('/upload/', function(req, res) {
+    res.write('Please enter a room name to upload to.')
+    res.end()
+})
+
 server.post('/upload/:id', function(req, res) {
-    var form = new formidable.IncomingForm()
-    form.uploadDir = 'tmp'
-    form.parse(req)
-    form.addListener('file', function(name, file) {
-        fs.rename(file.path, 'tmp/'+req.params.id+'.zip')
-    })
-    form.addListener('end', function() {
-        console.log(req.query)
-        console.log(req.query.room)
-        console.log(req.query.user)
-        res.render('read', {room:req.query.room, user:req.query.user})
-        res.end()
-
-    })
-
-    /*
-    form.onPart = function(part) {
-        part.on('data', function(data) {
-            var fd = fs.openSync('tmp/'+req.params.id+'.zip', 'a')
-            fs.writeSync(fd, data, 0, data.length, null)
-            fs.closeSync(fd)
+    console.log('test')
+    if (userCounts[req.params.id] == null || userCounts[req.params.id] == 0) {
+        var form = new formidable.IncomingForm()
+        form.uploadDir = 'tmp'
+        form.addListener('file', function(name, file) {
+            fs.rename(file.path, 'tmp/'+req.params.id+'.zip')
         })
-        part.on('end', function() {
-            res.render('read', {room:req.room, user:req.user})
+        form.addListener('end', function() {
+            res.write('File uploaded.')
             res.end()
-            var epub = new EPub('tmp/'+req.params.id+'.zip')
-            console.log(epub)
-            epub.on('error', function(err) {
-                console.log(err)
-                throw err
-            })
-            epub.on('end', function(err) {
-                console.log('end')
-                console.log('metadata: '+epub.metadata)
-                console.log('spine: '+epub.flow)
-                console.log('toc: '+epub.toc)
-                epub.getChapter(epub.spine.contents[0].id, function(err, data) {
-                    if (err) {
-                        console.log(err)
-                        return
-                    }
-                    console.log(data)
-                })
-            })
-            epub.parse()
         })
+        form.parse(req)
+    } else {
+        res.write('People are already reading something in this room!')
+        res.end()
     }
-    */
-
 })
 
 

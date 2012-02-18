@@ -1,14 +1,53 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <title>Read</title>
         <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Dear Princess Celestia: I love books">
+        <meta name="author" content="evalGeniuses">
+        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+        <script type="text/javascript" src="/static/js/turn.js"></script>
         <script type="text/javascript" src="/static/js/read.js"></script>
+        <link rel="stylesheet" href="/static/css/index.css"/>
     </head>
     <body>
         <input id="room" type="hidden" value=<%= room %> />
         <input id="user" type="hidden" value=<%= user %> />
-        test
+        
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </a>
+
+                    <a class="brand" href="#">Currant</a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="controllers" class="container">
+            <div class="hero-unit">
+                <h1>Haro</h1>
+                <p>God I love books</p>
+                <a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+            </div>
+        </div>
+
+        <div id="magazineholder"></div>
+
     </body>
 </html>
