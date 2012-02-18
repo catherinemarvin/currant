@@ -71,7 +71,10 @@ $(document).ready(function() {
 
             $("#magazine").append("<div id='page"+i+"'><div id='page"+i+"content' class='page-content'>"+retString+"</div></div>")
             if ((i % 2) == 0) { //this means right hand side, aka odd numbered pages
-                $("#page"+i).css({"background-color" : "#B7B3BA"});
+                //$("#page"+i).css({"background-color" : "#B7B3BA"});
+                //$("#page"+i).css({"background-color" : "#666"});
+                $("#page"+i).css({"background-image" : "-webkit-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
+                $("#page"+i).css({"background-image" : "-moz-linear-gradient(left,  #E4E4E4 0%, #F7F7F7 100%)"})
             } else {
                 $("#page"+i).css({"background-color" : "#F0F0F0"});
             }
@@ -87,8 +90,8 @@ $(document).ready(function() {
         });
 
         $('#magazine').bind('turned', function (e, page, pageObj) {
-            //console.log(page);
-            //console.log(pageObj);
+            console.log(page);
+            console.log(pageObj);
         });
     });
 
