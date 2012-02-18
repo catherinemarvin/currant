@@ -46,9 +46,54 @@ server.post('/upload/:id', function(req, res) {
                 console.log('metadata: '+epub.metadata)
                 console.log('spine: '+epub.flow)
                 console.log('toc: '+epub.toc)
+                epub.getChapter(epub.spine.contents[5].id, function(err, data) {
+                    if (err) {
+                        console.log(err)
+                        return
+                    }
+                    console.log(data)
+                })
             })
             epub.parse()
         })
     }
+
+})
+
+
+var roomPages = {} // a dictionary of current page numbers, indexed by room
+var userCounts = {} // a dictionary of current counts of users, indexed by room
+
+io.sockets.on('connection', function(socket) {
+    
+    socket.on('setRoomAndUser', function(data) {
+        socket.set('room', data['room'])
+        socket.set('user', data['user'])
+        socket.join(data['room'])
+        socket.emit('turnToPage', roomPages[data['room']])
+        if (userCounts[data['room']] == null) {
+            userCounts[data['room']] = 1
+        } else {
+            userCounts[data['room']]++
+        }
+        console.log('User '+data['user']+' ('socket.id+') joined room '+data['room'])
+    })
+
+    socket.on('turnToPage', function(pageNumber) {
+        socket.get('room', function(err, room) {
+            socket.broadcast.to(room).emit('turnToPage', pageNumber)
+            roomPages[room] = pageNumber
+        })
+    })
+
+    socketon('disconnect', function() {
+        socket.get('room', function(err, room) {
+            userCounts[room]--
+            if (userCounts[room] == 0) {
+                delete roomPages[room]
+                delete userCounts[room]
+            }
+        }
+    })
 
 })
