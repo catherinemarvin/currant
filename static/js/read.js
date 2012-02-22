@@ -131,6 +131,10 @@ $(document).ready(function() {
         }
     })
 
+    socket.on('connect', function () {
+        socket.emit('setRoomAndUser', {room:room, user:user})
+    })
+
     var apiKey = '12002492';
     var sessionId = '2_MX4xMjMyMDgxfjcyLjUuMTY3LjE0OH4yMDEyLTAyLTE4IDE2OjA5OjM1LjkxNzkyMyswMDowMH4wLjkyNzExMjU4NDU5Nn4';
     var token = 'devtoken';
@@ -174,8 +178,12 @@ $(document).ready(function() {
         
         for (var i = 0; i < streams.length; i++) {
             var stream = streams[i]
+            console.log(stream.connection.connectionId)
+            console.log(session.connection.connectionId)
+            console.log(stream.connection.connectionId != session.connection.connectionId)
             if ((stream.connection.connectionId != session.connection.connectionId) && ((stream in connections) == false)) {
                 addStream(stream);
+                console.log("addStream")
                 connections[stream] = true
             }
         }     
