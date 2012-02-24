@@ -1,0 +1,58 @@
+body {
+	padding-top: 60px;
+}
+
+p {
+	font-family: helvetica, arial, sans-serif;
+}
+
+.page-content {
+	margin: 40px;
+}
+
+#magazine {
+	width: 800px;
+	height: 600px;
+	margin: auto;
+}
+
+#magazineholderholder {
+	width: 100%;
+	z-index: -99;
+}
+
+#magazineholder {
+	width: 800px;
+	height: 600px;
+	margin: auto;
+	position: relative;
+	left: -200px;
+}
+
+.turn-page {
+	background: #B7B3BA;
+	width: 400px;
+	height: 600px;
+}
+
+.turn-page-wrapper {
+	overflow: hidden;
+}
+
+#videocontainer {
+	position: fixed;
+	top: 80px;
+	left: 0px;
+	width: 264px;
+	height: 168px;
+	z-index: -100;
+}
+
+#subscribers {
+	position: fixed;
+	top: 60px;
+	right: 0px;
+	width: 264px;
+	height: 168px;
+	z-index: -100;
+}

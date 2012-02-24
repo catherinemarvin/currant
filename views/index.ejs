@@ -1,22 +1,66 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Read</title>
+        <meta charset="utf-8">
+        <title>Read: Welcome!</title>
+        <meta name="viewport" content="width=device-width, initial-scale:1.0">
+        <meta name="description" content="Collaborative epub reading, with video!">
+        <meta name="author" content="evalGeniuses">
+        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+        <link href="http://twitter.github.com/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
+        <!--HTML5 shim. IE6-8 is awful.-->
+        <!--[if lt IE9]>
+            <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
         <script type="text/javascript" src="/static/js/jquery-1.7.1.min.js"></script>
         <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+        <link rel="stylesheet" href="/static/css/index.css"/>
     </head>
     <body>
-        <form id="login" action="/" >
-            <input id="roomInput" type="text" name="room" placeholder="Room" />
-            <input id="userInput" type="text" name="user" placeholder="Username" />
-            <input type="submit" onclick="document.getElementById('login').action='/'+document.getElementById('roomInput').value" value="Login" />
-        </form>
-        <br />
-        <br />
-        <form id="fileUpload" target="uploadFrame" enctype="multipart/form-data" method="post">
-            <input id="i" type="file" name="file" />
-            <input type="submit" onclick="document.getElementById('fileUpload').action='/upload/'+document.getElementById('roomInput').value" value="Upload" />
-        </form>
-        <iframe name="uploadFrame" />
+
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a class="brand" href="#">Currant</a>
+                    <div class="nav-collapse">
+                        <ul class="nav">
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <section id="forms">
+                <div class="row">
+                    <div class="span12">
+                        <form class="well" id="login" action="/" >
+                            <label>Room</label>
+                            <input id="roomInput" class="span4" type="text" name="room" placeholder="Daring Do and the Quest for the Sapphire Stone" />
+                            <label>Username</label>
+                            <input id="userInput" class="span4" type="text" name="user" placeholder="Rainbow Dash" />
+                            <label></label>
+                            <input type="submit" onclick="document.getElementById('login').action='/'+document.getElementById('roomInput').value" value="Login" />
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span12">
+                        <form class="well" id="fileUpload" target="uploadFrame" enctype="multipart/form-data" method="post">
+                            <label></label>
+                            <input id="i" type="file" name="file" />
+                            <label>Room Name</label>
+                            <input id="submitRoom" class="span4" type="text" name="room" placeholder="Foundation"/><span class="help-inline">Type in the room you want associated with this book!</span>
+                            <label></label>
+                            <input type="submit" onclick="document.getElementById('fileUpload').action='/upload/'+document.getElementById('submitRoom').value" value="Upload" />
+                        </form>
+                        <iframe name="uploadFrame" />
+                    </div>
+                </div>
+            </section>
+        </div>
     </body>
 </html>
